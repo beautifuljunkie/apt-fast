@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash  
 #
 # apt-fast v1.9
 # Use this just like aptitude or apt-get for faster package downloading.
@@ -16,6 +16,10 @@
 # Usage: msg "message text" "message type" "optional: err"
 # Message types are 'normal', 'hint' or 'warning'. Warnings and messages with a
 # third argument are piped to stderr.
+
+
+MIRRORS="$(aptmir)"
+
 msg(){
   msg_options=()
   case "$2" in
@@ -590,11 +594,9 @@ if [ "$option" == "install" ]; then
 
 elif [ "$option" == "clean" ]; then
   "${_APTMGR}" "${APT_SCRIPT_WARNING[@]}" "$@" && {
-    if [ -d "$DLDIR" ]; then
-      find "$DLDIR" -maxdepth 1 -type f -delete
-      CLEANUP_STATE="$?"
-      [ -f "$DLLIST" ] && rm -f -- "$DLLIST"* || true
-    fi
+    find "$DLDIR" -maxdepth 1 -type f -delete
+    CLEANUP_STATE="$?"
+    [ -f "$DLLIST" ] && rm -f -- "$DLLIST"* || true
   }
 
 elif [ "$option" == "download" ]; then

@@ -1,7 +1,8 @@
 .PHONY: install uninstall reinstall
 
 install: apt-fast completions/bash/apt-fast
-	apt-get install --force-yes -y -qq aria2
+	sh scripts/debinstall
+	cp scripts/aptmir /usr/local/sbin/
 	cp apt-fast /usr/local/sbin/
 	cp apt-fast.conf /etc/
 	mkdir -p /etc/bash_completion.d/
@@ -17,12 +18,14 @@ install: apt-fast completions/bash/apt-fast
 	gzip -f9 /usr/local/share/man/man8/apt-fast.8
 	gzip -f9 /usr/local/share/man/man5/apt-fast.conf.5
 	chmod +x /usr/local/sbin/apt-fast
+	chmod +x /usr/local/sbin/aptmir
+
 
 uninstall: /usr/local/sbin/apt-fast
-	rm -rf /usr/local/sbin/apt-fast /etc/apt-fast.conf \
+	rm -rf /usr/local/sbin/apt-fast /usr/local/sbin/aptmir /etc/apt-fast.conf \
 	/usr/local/share/man/man5/apt-fast.conf.5.gz /usr/local/share/man/man8/apt-fast.8.gz \
 	/usr/share/zsh/functions/Completion/Debian/_apt-fast /etc/bash_completion.d/apt-fast
-	@echo "Please manually remove deb package - aria2 if you don't need it anymore."
+	@echo "REMOVED"
 
 /usr/local/sbin/apt-fast:
 	@echo "Not installed" 1>&2
