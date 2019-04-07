@@ -1,4 +1,5 @@
 .PHONY: install uninstall reinstall
+		
 
 install: apt-kali completions/bash/apt-kali
 	sh scripts/debinstall
@@ -6,12 +7,10 @@ install: apt-kali completions/bash/apt-kali
 	cp apt-kali.conf /etc/
 	mkdir -p /etc/bash_completion.d/
 	mkdir -p /usr/share/zsh/functions/Completion/Debian/
-	cp completions/bash/apt-kali /etc/bash_completion.d/
-	cp completions/zsh/_apt-kali /usr/share/zsh/functions/Completion/Debian/
-	chown root:root /etc/bash_completion.d/apt-kali
-	chown root:root /usr/share/zsh/functions/Completion/Debian/_apt-kali
-	. /usr/share/zsh/functions/Completion/Debian/_apt-kali
-	. /etc/bash_completion
+	cp completions/bash/apt-kali /etc/bash_completion.d/ 
+	chown root:root /etc/bash_completion.d/apt-kali 
+	cp completions/zsh/_apt-kali /usr/share/zsh/functions/Completion/Debian/ 
+	chown root:root /usr/share/zsh/functions/Completion/Debian/_apt-kali 
 	mkdir -p /usr/local/share/man/man8/
 	mkdir -p /usr/local/share/man/man5/
 	cp man/apt-kali.8 /usr/local/share/man/man8/

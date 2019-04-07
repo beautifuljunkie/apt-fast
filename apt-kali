@@ -287,11 +287,19 @@ cleanup_dllist()
   fi
 }
 
+_remove_mirror_list()
+{
+ if [ -e "/tmp/mirror.txt" ]
+ then rm "/tmp/mirror.txt"
+fi
+}
+
 cleanup_aptkali()
 {
   [ "$CLEANUP_STATE" -eq 0 ] && CLEANUP_STATE=$?
   cleanup_dllist
   _remove_lock
+ _remove_mirror_list
 }
 
 exit_cleanup_state()
