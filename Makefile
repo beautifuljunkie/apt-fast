@@ -10,6 +10,8 @@ install: apt-kali completions/bash/apt-kali
 	cp completions/zsh/_apt-kali /usr/share/zsh/functions/Completion/Debian/
 	chown root:root /etc/bash_completion.d/apt-kali
 	chown root:root /usr/share/zsh/functions/Completion/Debian/_apt-kali
+	. /usr/share/zsh/functions/Completion/Debian/_apt-kali
+	. /etc/bash_completion
 	mkdir -p /usr/local/share/man/man8/
 	mkdir -p /usr/local/share/man/man5/
 	cp man/apt-kali.8 /usr/local/share/man/man8/
@@ -25,7 +27,7 @@ uninstall: /usr/local/sbin/apt-kali
 	/usr/share/zsh/functions/Completion/Debian/_apt-kali /etc/bash_completion.d/apt-kali
 	@echo "REMOVED"
 
-/usr/local/sbin/apt-kali:
+/usr/local/bin/apt-kali:
 	@echo "Not installed" 1>&2
 	@exit 1
 
