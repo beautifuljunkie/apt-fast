@@ -2,7 +2,7 @@
 
 install: apt-kali completions/bash/apt-kali
 	sh scripts/debinstall
-	cp apt-kali /usr/local/sbin/
+	cp apt-kali /usr/local/bin/
 	cp apt-kali.conf /etc/
 	mkdir -p /etc/bash_completion.d/
 	mkdir -p /usr/share/zsh/functions/Completion/Debian/
@@ -16,11 +16,11 @@ install: apt-kali completions/bash/apt-kali
 	cp man/apt-kali.conf.5 /usr/local/share/man/man5/
 	gzip -f9 /usr/local/share/man/man8/apt-kali.8
 	gzip -f9 /usr/local/share/man/man5/apt-kali.conf.5
-	chmod +x /usr/local/sbin/apt-kali
+	chmod +x /usr/local/bin/apt-kali
 	
 
 uninstall: /usr/local/sbin/apt-kali
-	rm -rf /usr/local/sbin/apt-kali /usr/local/sbin/aptmir /etc/apt-kali.conf \
+	rm -rf /usr/local/bin/apt-kali /etc/apt-kali.conf \
 	/usr/local/share/man/man5/apt-kali.conf.5.gz /usr/local/share/man/man8/apt-kali.8.gz \
 	/usr/share/zsh/functions/Completion/Debian/_apt-kali /etc/bash_completion.d/apt-kali
 	@echo "REMOVED"
