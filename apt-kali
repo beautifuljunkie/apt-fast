@@ -1,4 +1,4 @@
-#!/bin/bash -xve
+#!/bin/bash 
 #
 # apt-kali v1.9
 # Use this just like aptitude or apt-get for kalier package downloading.
