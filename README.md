@@ -1,7 +1,7 @@
 <!---
-apt-fast v1.9.1
-Use this just like aptitude or apt-get for faster package downloading
-this version has pretty much the same apt-fast features just that its 
+apt-kali v1.9.1
+Use this just like aptitude or apt-get for kalier package downloading
+this version has pretty much the same apt-kali features just that its 
 designed for KALI-LINUX
 
 You may distribute this file under the terms of the GNU General
@@ -9,9 +9,9 @@ Public License as published by the Free Software Foundation; either
 version 3 of the License, or (at your option) any later version.
 -->
 
-apt-fast 1.9.1
+apt-kali 1.9.1
 ============
-apt-fast is a shellscript wrapper for apt-get and aptitude that can drastically improve apt download times by downloading packages in parallel, with multiple connections per package.
+apt-kali is a shellscript wrapper for apt-get and aptitude that can drastically improve apt download times by downloading packages in parallel, with multiple connections per package.
 
 ## Table of Contents
 
@@ -46,13 +46,13 @@ Installation
 ------------
 
 ```sh
-sudo add-apt-repository ppa:apt-fast/stable
+sudo add-apt-repository ppa:apt-kali/stable
 sudo apt-get update
-sudo apt-get -y install apt-fast
+sudo apt-get -y install apt-kali
 ```
 
 ### Quick Install ###
-You can quickly install `apt-fast` by running:
+You can quickly install `apt-kali` by running:
 
 ```bash
 /bin/bash -c "$(curl -sL https://git.io/vokNn)"
@@ -62,9 +62,9 @@ You can quickly install `apt-fast` by running:
 A manual install can be performed as such:
 
 ```sh
-cp apt-fast /usr/local/sbin/
-chmod +x /usr/local/sbin/apt-fast
-cp apt-fast.conf /etc
+cp apt-kali /usr/local/sbin/
+chmod +x /usr/local/sbin/apt-kali
+cp apt-kali.conf /etc
 ```
 
 You need to have [aria2c](http://aria2.sourceforge.net/) installed:
@@ -73,40 +73,40 @@ You need to have [aria2c](http://aria2.sourceforge.net/) installed:
 apt-get install aria2
 ```
 
-Then simply run apt-fast instead of apt-get or aptitude.
+Then simply run apt-kali instead of apt-get or aptitude.
 
 
 ### Autocompletion ###
 #### Bash ####
 
 ```sh
-cp completions/bash/apt-fast /etc/bash_completion.d/
-chown root:root /etc/bash_completion.d/apt-fast
+cp completions/bash/apt-kali /etc/bash_completion.d/
+chown root:root /etc/bash_completion.d/apt-kali
 . /etc/bash_completion
 ```
 
 #### Zsh ####
 
 ```sh
-cp completions/zsh/_apt-fast /usr/share/zsh/functions/Completion/Debian/
-chown root:root /usr/share/zsh/functions/Completion/Debian/_apt-fast
-source /usr/share/zsh/functions/Completion/Debian/_apt-fast
+cp completions/zsh/_apt-kali /usr/share/zsh/functions/Completion/Debian/
+chown root:root /usr/share/zsh/functions/Completion/Debian/_apt-kali
+source /usr/share/zsh/functions/Completion/Debian/_apt-kali
 ```
 
 ### Man page installation ###
 
 ```sh
 mkdir -p /usr/local/share/man/man8/
-cp ./man/apt-fast.8 /usr/local/share/man/man8
-gzip -f9 /usr/local/share/man/man8/apt-fast.8
+cp ./man/apt-kali.8 /usr/local/share/man/man8
+gzip -f9 /usr/local/share/man/man8/apt-kali.8
 mkdir -p /usr/local/share/man/man5/
-cp ./man/apt-fast.conf.5 /usr/local/share/man/man5
-gzip -f9 /usr/local/share/man/man5/apt-fast.conf.5
+cp ./man/apt-kali.conf.5 /usr/local/share/man/man5
+gzip -f9 /usr/local/share/man/man5/apt-kali.conf.5
 ```
 
 Configuration
 -------------
-The apt-fast configuration file is located at: `/etc/apt-fast.conf`
+The apt-kali configuration file is located at: `/etc/apt-kali.conf`
 
 
 ### Package manager ###
@@ -120,7 +120,7 @@ Change package manager used for installation. Supported are apt-get, aptitude, a
 ```sh
 DOWNLOADBEFORE=true
 ```
-To suppress apt-fast confirmation dialog and download packages directly set this to any value. To ask for confirmation, leave empty. This options doesn't affect package manager confirmation.
+To suppress apt-kali confirmation dialog and download packages directly set this to any value. To ask for confirmation, leave empty. This options doesn't affect package manager confirmation.
 
 
 ### Maximum connections ###
@@ -160,7 +160,7 @@ Set to piece selection algorithm to use. Possible values: default, inorder, geom
 
 ### Downloadmanager file ###
 ```sh
-DLLIST='/tmp/apt-fast.list'
+DLLIST='/tmp/apt-kali.list'
 ```
 Location of aria2c input file, used to download the packages with options and checksums.
 
@@ -172,14 +172,14 @@ _DOWNLOADER='aria2c --no-conf -c -j ${_MAXNUM} -x ${_MAXCONPERSRV} -s ${_SPLITCO
 Change the download manager or add additional options to aria2c.
 
 #### Proxy ####
-apt-fast uses APT's proxy settings (`Acquire::http::proxy`, `Acquire::https::proxy`, `Acquire::ftp::proxy`) and if those are not available, the environment settings (`http_proxy`, `https_proxy`, `ftp_proxy`). Refer to APT's or the system's documentation.
+apt-kali uses APT's proxy settings (`Acquire::http::proxy`, `Acquire::https::proxy`, `Acquire::ftp::proxy`) and if those are not available, the environment settings (`http_proxy`, `https_proxy`, `ftp_proxy`). Refer to APT's or the system's documentation.
 
 
 ### Download folder ###
 ```sh
-DLDIR='/var/cache/apt/archives/apt-fast'
+DLDIR='/var/cache/apt/archives/apt-kali'
 ```
-Directory where apt-fast downloads the packages.
+Directory where apt-kali downloads the packages.
 
 
 ### APT archives cache ###
@@ -192,7 +192,7 @@ Directory where apt-get and aptitude download packages.
 ```sh
 SOURCELIST='/etc/apt/sources.list'
 ```
-When you use the 'update-source' arg this is where it will add the fastest kali repo. Source repo will be unlocked by default
+When you use the 'update-source' arg this is where it will add the kaliest kali repo. Source repo will be unlocked by default
 ***!!! ANY OTHER KALI REPOS IN SOURCE LIST WILL BE REPLACED !!!***
 
 
@@ -215,7 +215,7 @@ Terminal colors used for dialogs. Refer to [ANSI Escape sequences](http://ascii-
 
 License
 -------
-Consider apt-fast and all of its derivatives licensed under the GNU GPLv3+.
+Consider apt-kali and all of its derivatives licensed under the GNU GPLv3+.
 
 Copyright: 2008-2012 Matt Parnell, http://www.mattparnell.com
 

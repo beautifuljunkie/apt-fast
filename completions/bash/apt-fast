@@ -1,8 +1,8 @@
-# Debian apt-fast(8) completion.
+# Debian apt-kali(8) completion.
 # Copy of Ubuntu 10.04 _apt_get function from apt completion. Merged with 12.04
-# changes but preserve compatibility. _apt_get function renamed to _apt_fast.
+# changes but preserve compatibility. _apt_get function renamed to _apt_kali.
 
-_apt_fast()
+_apt_kali()
 {
     local cur prev special i
 
@@ -66,14 +66,14 @@ _apt_fast()
             --diff-only --no-install-recommends --tar-only --config-file
             --option --auto-remove' -- "$cur" ) )
     else
-        COMPREPLY=( $( compgen -W 'update upgrade dselect-upgrade
+        COMPREPLY=( $( compgen -W 'update update-source upgrade dselect-upgrade
             dist-upgrade install remove purge source build-dep
             check download clean autoclean autoremove changelog' -- "$cur" ) )
     fi
 
     return 0
 } &&
-complete -F _apt_fast "$filenames" apt-fast
+complete -F _apt_kali "$filenames" apt-kali
 
 # Local variables:
 # mode: shell-script

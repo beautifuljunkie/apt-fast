@@ -1,5 +1,5 @@
 '\"
-.\" Man page for apt-fast
+.\" Man page for apt-kali
 .\"
 .\" Copyright: 2012, 2017 Dominique Lasserre <lasserre.d@gmail.com>
 .\"
@@ -7,23 +7,23 @@
 .\" Public License as published by the Free Software Foundation; either
 .\" version 3 of the License, or (at your option) any later version.
 .\"
-.TH "APT\-FAST" "8" "2017-11-20" "apt\-fast 1.9" "apt\-fast Manual"
+.TH "APT\-FAST" "8" "2017-11-20" "apt\-kali 1.9" "apt\-kali Manual"
 .SH "NAME"
 .LP
-apt\-fast \- shellscript wrapper for apt\-get or aptitude to speed up downloads
+apt\-kali \- shellscript wrapper for apt\-get or aptitude to speed up downloads
 .SH "SYNOPSIS"
 .LP
-\fBapt\-fast\fR [apt\-get options and arguments]
+\fBapt\-kali\fR [apt\-get options and arguments]
 .br
-\fBapt\-fast\fR [aptitude options and arguments]
+\fBapt\-kali\fR [aptitude options and arguments]
 .br
-\fBapt\-fast\fR { { \fIinstall\fP | \fIupgrade\fP | \fIdist-upgrade\fP |
+\fBapt\-kali\fR { { \fIinstall\fP | \fIupgrade\fP | \fIdist-upgrade\fP |
 \fIfull-upgrade\fP | \fIbuild-dep\fP | \fIdownload\fP | \fIsource\fP }
 [ \-y | \-\-yes | \-\-assume\-yes | \-\-assume\-no ] <package1> <package2> ... |
 \fIclean\fP }
 .SH "DESCRIPTION"
 .LP
-\fBapt\-fast\fR is a shellscript wrapper for apt\-get or aptitude that can
+\fBapt\-kali\fR is a shellscript wrapper for apt\-get or aptitude that can
 drastically improve APT download times by downloading packages in parallel,
 with multiple connections per package.
 .br
@@ -31,11 +31,11 @@ It uses \fBaria2c\fR(1) as default download accelerator.
 .LP
 For every command or option you can use either \fBapt\-get\fR(8) or
 \fBaptitude\fR(1) syntax, depending which package manager you have selected
-with \fB_APTMGR\fR configuration item. See \fBapt-fast.conf\fR(5) for detailed
+with \fB_APTMGR\fR configuration item. See \fBapt-kali.conf\fR(5) for detailed
 description of configuration items.
 .LP
 Commands listed here use download accelerator to retrieve new packages or
-influence \fBapt\-fast\fR in different ways. See documentation of selected
+influence \fBapt\-kali\fR in different ways. See documentation of selected
 package manager to get overview of all commands available.
 .TP
 \fBinstall\fR <\fIpackage1\fP> <\fIpackage2\fP> ...
@@ -72,7 +72,7 @@ Clean package cache (configuration item \fBAPTCACHE\fR) and temporary download
 directory (configuration item \fBDLDIR\fR). Also remove temporary download list
 file (configuration item \fBDLLIST\fR).
 .SH "OPTIONS"
-Options listed here influence \fBapt\-fast\fR behavior. See
+Options listed here influence \fBapt\-kali\fR behavior. See
 documentation of selected package manager to get overview of all options
 available.
 .LP
@@ -86,28 +86,28 @@ Automatic "no" to all prompts. Unsets \fBDOWNLOADBEFORE\fR configuration
 item.
 .SH "FILES"
 .TP
-/etc/apt\-fast.conf
-Configuration file. See \fBapt\-fast.conf\fR(5) for detailed description.
+/etc/apt\-kali.conf
+Configuration file. See \fBapt\-kali.conf\fR(5) for detailed description.
 .TP
-/tmp/apt-fast.list
+/tmp/apt-kali.list
 Temporary download list file. Configuration item: \fBDLLIST\fR
 .TP
 /var/cache/apt/apt-file/
 Temporary download location where download accelerator retrieves packages
-before \fBapt\-fast\fR moves them to package cache. Configuration item:
+before \fBapt\-kali\fR moves them to package cache. Configuration item:
 \fBDLDIR\fR
 .SH "BUGS"
 Use Launchpad bug tracker to report package related bugs (please add debconf
-related information with 'debconf-show apt-fast'):
+related information with 'debconf-show apt-kali'):
 .br
-https://bugs.launchpad.net/apt-fast/+filebug
+https://bugs.launchpad.net/apt-kali/+filebug
 .LP
 To report bugs upstream use GitHub issue tracker:
 .br
-https://github.com/ilikenwf/apt-fast/issues/new
+https://github.com/ilikenwf/apt-kali/issues/new
 .SH "SEE ALSO"
 .LP
-\fBapt-fast.conf\fR(5)
+\fBapt-kali.conf\fR(5)
 .br
 \fBapt\-get\fR(8),
 \fBaptitude\fR(8),

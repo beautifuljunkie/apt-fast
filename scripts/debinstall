@@ -1,3 +1,6 @@
-#!/bin/sh
+#!/bin/sh -xve
 
-apt install -y -qq aria2 wget html-xml-utils sed grep coreutils
+if ! dpkg-query --show {aria2,html-xml-utils,netselect,wget} >/dev/null 2>&1; then
+    sudo apt-get update
+    sudo apt-get install -y aria2 html-xml-utils netselect wget
+  fi

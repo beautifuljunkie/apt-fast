@@ -1,7 +1,7 @@
-#!/bin/bash  
+#!/bin/bash -xve
 #
-# apt-fast v1.9
-# Use this just like aptitude or apt-get for faster package downloading.
+# apt-kali v1.9
+# Use this just like aptitude or apt-get for kalier package downloading.
 #
 # Copyright: 2008-2012 Matt Parnell, http://www.mattparnell.com
 # Improvements, maintenance, revisions - 2012, 2017-2018 Dominique Lasserre
@@ -16,9 +16,29 @@
 # Usage: msg "message text" "message type" "optional: err"
 # Message types are 'normal', 'hint' or 'warning'. Warnings and messages with a
 # third argument are piped to stderr.
+kalimirget () {
+
+(wget -q -O /tmp/mirror.txt http.kali.org/README.mirrorlist ;
+
+hxwls /tmp/mirror.txt | grep kali |grep -v http.kali | sed 's/\/README//g' | uniq )}
 
 
-MIRRORS="$(aptmir)"
+
+KALILIST=$( kalimirget )
+
+kaliapt () {
+
+echo "$KALILIST" |xargs netselect -t 1|tr ' ' '\n' |grep http 
+
+}
+
+kalimirror () { 
+
+echo "$KALILIST" | paste -s -d',' -|sed "s/,/, /g" 
+
+}
+
+MIRRORS="$(kalimirror)"
 
 msg(){
   msg_options=()
@@ -31,9 +51,9 @@ msg(){
   esac
 
   if [ -z "$3" ] && [ "$2" != "warning" ]; then
-    echo -e "${msg_options[@]}" "${aptfast_prefix}${beginColor}$1${endColor}"
+    echo -e "${msg_options[@]}" "${aptkali_prefix}${beginColor}$1${endColor}"
   else
-    echo -e "${msg_options[@]}" "${aptfast_prefix}${beginColor}$1${endColor}" >&2
+    echo -e "${msg_options[@]}" "${aptkali_prefix}${beginColor}$1${endColor}" >&2
   fi
 }
 
@@ -47,6 +67,9 @@ for argument in "$@"; do
       ;;
     clean | autoclean)
       option="clean"
+      ;;
+    update-source)
+      option="update-source"
       ;;
     download)
       option="download"
@@ -80,12 +103,13 @@ TMP__MAXCONPERSRV="${MAXCONPERSRV-${TMP_RANDOM}}"
 TMP__SPLITCON="${SPLITCON-${TMP_RANDOM}}"
 TMP__MINSPLITSZ=${MINSPLITSZ-${TMP_RANDOM}}
 TMP__PIECEALGO=${PIECEALGO-${TMP_RANDOM}}
-TMP_aptfast_prefix="${aptfast_prefix-${TMP_RANDOM}}"
+TMP_aptkali_prefix="${aptkali_prefix-${TMP_RANDOM}}"
 TMP_APT_FAST_TIMEOUT="${APT_FAST_TIMEOUT-${TMP_RANDOM}}"
 TMP_VERBOSE_OUTPUT="${VERBOSE_OUTPUT-${TMP_RANDOM}}"
 TMP_ftp_proxy="${ftp_proxy-${TMP_RANDOM}}"
 TMP_http_proxy="${http_proxy-${TMP_RANDOM}}"
 TMP_https_proxy="${https_proxy-${TMP_RANDOM}}"
+TMP_SOURCELIST="${SOURCELIST-${TMP_RANDOM}}"
 
 # Check for proper privileges.
 # Call explicitly with environment variables to get them into root conext.
@@ -103,12 +127,13 @@ if [ "$root" = 1 ] && [ "$UID" != 0 ]; then
             _SPLITCON="$TMP__SPLITCON" \
             _MINSPLITSZ="$TMP__MINSPLITSZ" \
             _PIECEALGO="$TMP__PIECEALGO" \
-            aptfast_prefix="$TMP_aptfast_prefix" \
+            aptkali_prefix="$TMP_aptkali_prefix" \
             APT_FAST_TIMEOUT="$TMP_APT_FAST_TIMEOUT" \
             VERBOSE_OUTPUT="$TMP_VERBOSE_OUTPUT" \
             ftp_proxy="$TMP_ftp_proxy" \
             http_proxy="$TMP_http_proxy" \
             https_proxy="$TMP_https_proxy" \
+	        SOURCELIST="$TMP_SOURCELIST" \
             "$0" "$@"
 fi
 
@@ -118,32 +143,32 @@ fi
 # permissions.
 # We need lock for non-root commands too, because we only have one download
 # list file.
-LCK_FILE="/tmp/apt-fast"
+LCK_FILE="/tmp/apt-kali"
 LCK_FD=99
 
 # Set default package manager, APT cache, temporary download dir,
 # temporary download list file, and maximal parallel downloads
 _APTMGR=apt-get
 eval "$(apt-config shell APTCACHE Dir::Cache::archives/d)"
-# Check if APT config option Dir::Cache::archives::apt-fast-partial is set.
-eval "$(apt-config shell apt_fast_partial Dir::Cache::archives::apt-fast-partial/d)"
-if [ -z "$apt_fast_partial" ]; then
-  eval "$(apt-config -o Dir::Cache::archives::apt-fast-partial=apt-fast shell DLDIR Dir::Cache::archives::apt-fast-partial/d)"
+# Check if APT config option Dir::Cache::archives::apt-kali-partial is set.
+eval "$(apt-config shell apt_kali_partial Dir::Cache::archives::apt-kali-partial/d)"
+if [ -z "$apt_kali_partial" ]; then
+  eval "$(apt-config -o Dir::Cache::archives::apt-kali-partial=apt-kali shell DLDIR Dir::Cache::archives::apt-kali-partial/d)"
 else
-  eval "$(apt-config shell DLDIR Dir::Cache::archives::apt-fast-partial/d)"
+  eval "$(apt-config shell DLDIR Dir::Cache::archives::apt-kali-partial/d)"
 fi
 # Currently not needed.
 eval "$(apt-config shell LISTDIR Dir::State::lists/d)"
-DLLIST="/tmp/apt-fast.list"
+DLLIST="/tmp/apt-kali.list"
 _MAXNUM=5
 _MAXCONPERSRV=10
 _SPLITCON=8
 _MINSPLITSZ="1M"
 _PIECEALGO="default"
 
-# Prefix in front of apt-fast output:
-aptfast_prefix=
-# aptfast_prefix="$(date '+%b %_d %T.%N') apt-fast: "
+# Prefix in front of apt-kali output:
+aptkali_prefix=
+#aptkali_prefix="$(date '+%b %_d %T.%N') apt-kali: "
 
 # Set color variables.
 cGreen='\e[0;32m'
@@ -151,7 +176,7 @@ cRed='\e[0;31m'
 cBlue='\e[0;34m'
 endColor='\e[0m'
 
-# Set timout value for apt-fast download confirmation dialog.
+# Set timout value for apt-kali download confirmation dialog.
 # Value is in seconds.
 APT_FAST_TIMEOUT=60
 
@@ -164,8 +189,11 @@ VERBOSE_OUTPUT=
 # Download command.
 _DOWNLOADER='aria2c --no-conf -c -j ${_MAXNUM} -x ${_MAXCONPERSRV} -s ${_SPLITCON} -i ${DLLIST} --min-split-size=${_MINSPLITSZ} --stream-piece-selector=${_PIECEALGO} --connect-timeout=600 --timeout=600 -m0'
 
+# Default sources list 
+SOURCELIST="/etc/apt/sources.list.d/apt-kali.list"
+
 # Load config file.
-CONFFILE="/etc/apt-fast.conf"
+CONFFILE="/etc/apt-kali.conf"
 if [ -e "$CONFFILE" ]; then
     source "$CONFFILE"
 fi
@@ -174,6 +202,8 @@ fi
 ftp_proxy=
 http_proxy=
 https_proxy=
+
+
 
 # Now overwrite with preserved values if values were set before (compare with
 # 'random' string).
@@ -189,29 +219,30 @@ https_proxy=
 [ "$TMP__SPLITCON" = "$TMP_RANDOM" ] || _SPLITCON="$TMP__SPLITCON"
 [ "$TMP__MINSPLITSZ" = "$TMP_RANDOM" ] || _MINSPLITSZ="$TMP__MINSPLITSZ"
 [ "$TMP__PIECEALGO" = "$TMP_RANDOM" ] || _PIECEALGO="$TMP__PIECEALGO"
-[ "$TMP_aptfast_prefix" = "$TMP_RANDOM" ] || aptfast_prefix="$TMP_aptfast_prefix"
+[ "$TMP_aptkali_prefix" = "$TMP_RANDOM" ] || aptkali_prefix="$TMP_aptkali_prefix"
 [ "$TMP_APT_FAST_TIMEOUT" = "$TMP_RANDOM" ] || APT_FAST_TIMEOUT="$TMP_APT_FAST_TIMEOUT"
 [ "$TMP_VERBOSE_OUTPUT" = "$TMP_RANDOM" ] || VERBOSE_OUTPUT="$TMP_VERBOSE_OUTPUT"
 [ "$TMP_ftp_proxy" = "$TMP_RANDOM" ] || ftp_proxy="$TMP_ftp_proxy"
 [ "$TMP_http_proxy" = "$TMP_RANDOM" ] || http_proxy="$TMP_http_proxy"
 [ "$TMP_https_proxy" = "$TMP_RANDOM" ] || https_proxy="$TMP_https_proxy"
+[ "$TMP_SOURCELIST" = "$TMP_RANDOM" ] || SOURCELIST="$TMP_SOURCELIST"
 
 
-# Disable colors if not executed in terminal.
+#Disable colors if not executed in terminal.
 if [ ! -t 1 ]; then
   cGreen=
   cRed=
   cBlue=
   endColor=
   #FIXME: Time not updated.
-  [ -z "$aptfast_prefix" ] && aptfast_prefix="[apt-fast $(date +"%T")]"
+  [ -z "$aptkali_prefix" ] && aptkali_prefix="[apt-kali $(date +"%T")]"
 fi
 
 
 msg_already_running()
 {
-  msg "apt-fast already running!" "warning"
-  msg "Verify that all apt-fast processes are finished then remove $LCK_FILE.lock and try again." "hint"
+  msg "apt-kali already running!" "warning"
+  msg "Verify that all apt-kali processes are finished then remove $LCK_FILE.lock and try again." "hint"
 }
 
 # Check if a lock file exists.
@@ -226,8 +257,8 @@ _create_lock()
 {
     eval "exec $LCK_FD>\"$LCK_FILE.lock\""
 
-    trap "cleanup_aptfast; exit_cleanup_state" EXIT
-    trap "cleanup_aptfast; exit 1" INT TERM
+    trap "cleanup_aptkali; exit_cleanup_state" EXIT
+    trap "cleanup_aptkali; exit 1" INT TERM
 
     flock -n $LCK_FD || { msg_already_running; exit 1; }
 }
@@ -256,7 +287,7 @@ cleanup_dllist()
   fi
 }
 
-cleanup_aptfast()
+cleanup_aptkali()
 {
   [ "$CLEANUP_STATE" -eq 0 ] && CLEANUP_STATE=$?
   cleanup_dllist
@@ -313,13 +344,13 @@ get_uris(){
   elif [ -f "$DLLIST" ]; then
     if ! rm -f -- "$DLLIST" 2>/dev/null && ! touch -- "$DLLIST" 2>/dev/null
     then
-      msg "Unable to write to download file. Try restarting with root permissions or run 'apt-fast clean' first." "warning"
+      msg "Unable to write to download file. Try restarting with root permissions or run 'apt-kali clean' first." "warning"
       exit 1
     fi
   fi
 
   # Add header to overwrite file.
-  echo "# apt-fast mirror list: $(date)" > "$DLLIST"
+  echo "# apt-kali mirror list: $(date)" > "$DLLIST"
   #NOTE: aptitude doesn't have this functionality, so we use apt-get to get
   #      package URIs.
   case "$_APTMGR" in
@@ -434,10 +465,11 @@ display_downloadfile(){
         pkg="$(echo "$line" | cut -d' ' -f1)"
         ver="$(echo "$line" | cut -d' ' -f2)"
         size="$(echo "$line" | cut -d' ' -f3)"
-        printf '%s%-40s %-20s %10s\n' "$aptfast_prefix" "$pkg" "$ver" "$size"
+        printf '%s%-40s %-20s %10s\n' "$aptkali_prefix" "$pkg" "$ver" "$size"
     done <<<"$(echo -e "$DOWNLOAD_DISPLAY" | sort "${DISPLAY_SORT_OPTIONS[@]}")"
   fi
   msg "Download size: $(echo "$DOWNLOAD_SIZE" | numfmt --to=iec-i --suffix=B)" "normal"
+  msg "Total Packages: $(cat "$DLLIST" |grep out= | wc -l)" "warning"
 }
 
 # Create and insert a PID number to lockfile.
@@ -540,7 +572,7 @@ if [ "$option" == "install" ]; then
   get_uris "$@"
 
   [ -t 1 ] && [ -n "$REMOVE_WORKING_MESSAGE" ] && tput cuu 1 && tput el && tput cuu 1
-  # Test /tmp/apt-fast.list file exists and not just the apt-fast comment line.
+  # Test /tmp/apt-kali.list file exists and not just the apt-kali comment line.
   # Then download all files from the list.
   if [ -f "$DLLIST" ] && [ "$(wc -l "$DLLIST" | cut -d' ' -f1)" -gt 1 ] && [ ! "$DOWNLOADBEFORE" ]; then
     display_downloadfile
@@ -565,7 +597,7 @@ if [ "$option" == "install" ]; then
     # Continue if answer was right or DOWNLOADBEFORE is enabled.
     if ((result)); then
       if [ -s "$DLLIST" ]; then
-        # Test if apt-fast directory is present where we put packages.
+        # Test if apt-kali directory is present where we put packages.
         if [ ! -d "$DLDIR" ]; then
           mkdir -p -- "$DLDIR"
         fi
@@ -598,6 +630,23 @@ elif [ "$option" == "clean" ]; then
     CLEANUP_STATE="$?"
     [ -f "$DLLIST" ] && rm -f -- "$DLLIST"* || true
   }
+
+elif [ "$option" == "update-source" ]; then
+KALIAPT="$(kaliapt)"
+
+if  grep -q  "$KALIAPT" -r "/etc/apt/sources.list" "/etc/apt/sources.list.d/" "${SOURCELIST}" ; 
+then
+	msg "Sources list is already using kaliest mirror. Nothing to update" "warning"  
+else
+cp "${SOURCELIST}" "${SOURCELIST}~"
+grep -v kali "${SOURCELIST}~" > "${SOURCELIST}" 
+echo -e "deb ""$KALIAPT"" kali-rolling main non-free contrib\ndeb-src ""$KALIAPT"" kali-rolling main non-free contrib" >> "${SOURCELIST}" &&
+
+msg "Added ${KALIAPT} To sources list:""$SOURCELIST""" "hint"
+		
+	fi
+#REMOVE_WORKING_MESSAGE=
+  
 
 elif [ "$option" == "download" ]; then
   msg

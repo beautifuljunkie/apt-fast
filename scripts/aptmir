@@ -1,5 +1,0 @@
-#!/bin/bash
-
-wget -q -O /tmp/here.txt http.kali.org/README.mirrorlist 
-
-hxwls /tmp/here.txt | grep kali |grep -v http.kali | sed 's/\/README//g'| uniq | paste -s -d',' -|sed "s/,/, /g" 

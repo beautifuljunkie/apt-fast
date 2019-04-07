@@ -1,33 +1,31 @@
 .PHONY: install uninstall reinstall
 
-install: apt-fast completions/bash/apt-fast
+install: apt-kali completions/bash/apt-kali
 	sh scripts/debinstall
-	cp scripts/aptmir /usr/local/sbin/
-	cp apt-fast /usr/local/sbin/
-	cp apt-fast.conf /etc/
+	cp apt-kali /usr/local/sbin/
+	cp apt-kali.conf /etc/
 	mkdir -p /etc/bash_completion.d/
 	mkdir -p /usr/share/zsh/functions/Completion/Debian/
-	cp completions/bash/apt-fast /etc/bash_completion.d/
-	cp completions/zsh/_apt-fast /usr/share/zsh/functions/Completion/Debian/
-	chown root:root /etc/bash_completion.d/apt-fast
-	chown root:root /usr/share/zsh/functions/Completion/Debian/_apt-fast
+	cp completions/bash/apt-kali /etc/bash_completion.d/
+	cp completions/zsh/_apt-kali /usr/share/zsh/functions/Completion/Debian/
+	chown root:root /etc/bash_completion.d/apt-kali
+	chown root:root /usr/share/zsh/functions/Completion/Debian/_apt-kali
 	mkdir -p /usr/local/share/man/man8/
 	mkdir -p /usr/local/share/man/man5/
-	cp man/apt-fast.8 /usr/local/share/man/man8/
-	cp man/apt-fast.conf.5 /usr/local/share/man/man5/
-	gzip -f9 /usr/local/share/man/man8/apt-fast.8
-	gzip -f9 /usr/local/share/man/man5/apt-fast.conf.5
-	chmod +x /usr/local/sbin/apt-fast
-	chmod +x /usr/local/sbin/aptmir
+	cp man/apt-kali.8 /usr/local/share/man/man8/
+	cp man/apt-kali.conf.5 /usr/local/share/man/man5/
+	gzip -f9 /usr/local/share/man/man8/apt-kali.8
+	gzip -f9 /usr/local/share/man/man5/apt-kali.conf.5
+	chmod +x /usr/local/sbin/apt-kali
+	
 
-
-uninstall: /usr/local/sbin/apt-fast
-	rm -rf /usr/local/sbin/apt-fast /usr/local/sbin/aptmir /etc/apt-fast.conf \
-	/usr/local/share/man/man5/apt-fast.conf.5.gz /usr/local/share/man/man8/apt-fast.8.gz \
-	/usr/share/zsh/functions/Completion/Debian/_apt-fast /etc/bash_completion.d/apt-fast
+uninstall: /usr/local/sbin/apt-kali
+	rm -rf /usr/local/sbin/apt-kali /usr/local/sbin/aptmir /etc/apt-kali.conf \
+	/usr/local/share/man/man5/apt-kali.conf.5.gz /usr/local/share/man/man8/apt-kali.8.gz \
+	/usr/share/zsh/functions/Completion/Debian/_apt-kali /etc/bash_completion.d/apt-kali
 	@echo "REMOVED"
 
-/usr/local/sbin/apt-fast:
+/usr/local/sbin/apt-kali:
 	@echo "Not installed" 1>&2
 	@exit 1
 
