@@ -45,17 +45,11 @@ apt-kali is a shellscript wrapper for apt-get and aptitude that can drastically 
 Installation
 ------------
 
-```sh
-sudo add-apt-repository ppa:apt-kali/stable
-sudo apt-get update
-sudo apt-get -y install apt-kali
-```
-
 ### Quick Install ###
 You can quickly install `apt-kali` by running:
 
 ```bash
-/bin/bash -c "$(curl -sL https://git.io/vokNn)"
+/bin/bash -c "$(curl -sL https://git.io/fjtUP)"
 ```
 
 ### Manual ###
@@ -67,10 +61,14 @@ chmod +x /usr/local/sbin/apt-kali
 cp apt-kali.conf /etc
 ```
 
-You need to have [aria2c](http://aria2.sourceforge.net/) installed:
+You need to have installed:
+[aria2c](http://aria2.sourceforge.net/) 
+[wget](https://ftp.gnu.org/gnu/wget/)
+[html-xml-utils](https://www.w3.org/Tools/HTML-XML-utils/)
+[netselect](http://github.com/apenwarr/netselect)
 
 ```sh
-apt-get install aria2
+apt-get install aria2 wget html-xml-utils netselect
 ```
 
 Then simply run apt-kali instead of apt-get or aptitude.
