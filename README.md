@@ -1,16 +1,15 @@
 <!---
-apt-fast v1.9
-Use this just like aptitude or apt-get for faster package downloading.
-
-Copyright: 2008-2012 Matt Parnell, http://www.mattparnell.com
-Improvements, maintenance, revisions - 2012, 2017-2018 Dominique Lasserre
+apt-fast v1.9.1
+Use this just like aptitude or apt-get for faster package downloading
+this version has pretty much the same apt-fast features just that its 
+designed for KALI-LINUX
 
 You may distribute this file under the terms of the GNU General
 Public License as published by the Free Software Foundation; either
 version 3 of the License, or (at your option) any later version.
 -->
 
-apt-fast 1.9
+apt-fast 1.9.1
 ============
 apt-fast is a shellscript wrapper for apt-get and aptitude that can drastically improve apt download times by downloading packages in parallel, with multiple connections per package.
 
@@ -27,7 +26,6 @@ apt-fast is a shellscript wrapper for apt-get and aptitude that can drastically 
 - [Configuration](#configuration)
   - [Package manager](#package-manager)
   - [Confirmation dialog](#confirmation-dialog)
-  - [Multiple mirrors](#multiple-mirrors)
   - [Maximum connections](#maximum-connections)
   - [Maximum connections per server](#maximum-connections-per-server)
   - [Maximum connections per file](#maximum-connections-per-file)
@@ -38,6 +36,7 @@ apt-fast is a shellscript wrapper for apt-get and aptitude that can drastically 
     - [Proxy](#proxy)
   - [Download folder](#download-folder)
   - [APT archives cache](#apt-archives-cache)
+  - [Source list location](#source-list-location)
   - [Verbose output](#verbose-output)
   - [Colors](#colors)
 - [License](#license)
@@ -51,13 +50,6 @@ sudo add-apt-repository ppa:apt-fast/stable
 sudo apt-get update
 sudo apt-get -y install apt-fast
 ```
-
-### Ubuntu PPA ###
-You can use the Ubuntu PPA to get a graphical configuration file setup and automatic updates, for details see:
-
-* [ppa:apt-fast/stable](https://code.launchpad.net/~apt-fast/+archive/stable)
-
-Some distros, such as PCLinuxOS include apt-fast in their repos.
 
 ### Quick Install ###
 You can quickly install `apt-fast` by running:
@@ -119,7 +111,7 @@ The apt-fast configuration file is located at: `/etc/apt-fast.conf`
 
 ### Package manager ###
 ```sh
-_APTMGR=apt-get
+_APTMGR=apt
 ```
 Change package manager used for installation. Supported are apt-get, aptitude, apt.
 
@@ -129,26 +121,6 @@ Change package manager used for installation. Supported are apt-get, aptitude, a
 DOWNLOADBEFORE=true
 ```
 To suppress apt-fast confirmation dialog and download packages directly set this to any value. To ask for confirmation, leave empty. This options doesn't affect package manager confirmation.
-
-
-### Multiple mirrors ###
-Adding multiple mirrors will further speed up downloads and distribute load, be sure to add mirrors near to your location.
-Official mirror lists:
-
-* Debian: http://www.debian.org/mirror/list
-* Ubuntu: https://launchpad.net/ubuntu/+archivemirrors
-
-Then add them to whitespace and comma separated list in config file, e.g.:
-
-```sh
-MIRRORS=( 'http://deb.debian.org/debian','http://ftp.debian.org/debian, http://ftp2.de.debian.org/debian, http://ftp.de.debian.org/debian, ftp://ftp.uni-kl.de/debian' )
-```
-
-```sh
-MIRRORS=( 'http://archive.ubuntu.com/ubuntu, http://de.archive.ubuntu.com/ubuntu, http://ftp.halifax.rwth-aachen.de/ubuntu, http://ftp.uni-kl.de/pub/linux/ubuntu, http://mirror.informatik.uni-mannheim.de/pub/linux/distributions/ubuntu/' )
-```
-
-*NOTE:* To use any mirrors you may have in sources.list or sources.list.d you will need to add them to the apt-fast.conf mirror list as well!
 
 
 ### Maximum connections ###
@@ -216,6 +188,13 @@ APTCACHE='/var/cache/apt/archives'
 ```
 Directory where apt-get and aptitude download packages.
 
+### Source list location ###
+```sh
+SOURCELIST='/etc/apt/sources.list'
+```
+When you use the 'update-source' arg this is where it will add the fastest kali repo. Source repo will be unlocked by default
+***!!! ANY OTHER KALI REPOS IN SOURCE LIST WILL BE REPLACED !!!***
+
 
 ### Verbose output ###
 ```sh
@@ -245,6 +224,8 @@ Improvements, maintenance, revisions - 2012, 2017-2018 Dominique Lasserre
 
 Special thanks
 --------------
+ * Matt Parnell, http://www.mattparnell.com - Copyright: 2008-2012 
+ * Dominique Lasserre - Improvements, maintenance, revisions - 2012, 2017-2018
  * Travis/travisn000 - support for complex apt-get commands
  * [Alan Hoffmeister](https://github.com/alanhoff) - aria2c support
  * Abhishek Sharma - aria2c with proxy support
