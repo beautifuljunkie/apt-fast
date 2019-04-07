@@ -21,7 +21,7 @@ install: apt-kali completions/bash/apt-kali
 	chmod +x /usr/local/bin/apt-kali
 	
 
-uninstall: /usr/local/sbin/apt-kali
+uninstall: /usr/local/bin/apt-kali
 	rm -rf /usr/local/bin/apt-kali /etc/apt-kali.conf \
 	/usr/local/share/man/man5/apt-kali.conf.5.gz /usr/local/share/man/man8/apt-kali.8.gz \
 	/usr/share/zsh/functions/Completion/Debian/_apt-kali /etc/bash_completion.d/apt-kali
