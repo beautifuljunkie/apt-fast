@@ -56,8 +56,8 @@ You can quickly install `apt-kali` by running:
 A manual install can be performed as such:
 
 ```sh
-cp apt-kali /usr/local/sbin/
-chmod +x /usr/local/sbin/apt-kali
+cp apt-kali /usr/bin/
+chmod +x /usr/bin/apt-kali
 cp apt-kali.conf /etc
 ```
 
@@ -94,12 +94,12 @@ source /usr/share/zsh/functions/Completion/Debian/_apt-kali
 ### Man page installation ###
 
 ```sh
-mkdir -p /usr/local/share/man/man8/
-cp ./man/apt-kali.8 /usr/local/share/man/man8
-gzip -f9 /usr/local/share/man/man8/apt-kali.8
-mkdir -p /usr/local/share/man/man5/
-cp ./man/apt-kali.conf.5 /usr/local/share/man/man5
-gzip -f9 /usr/local/share/man/man5/apt-kali.conf.5
+mkdir -p /usr/share/man/man8/
+cp ./man/apt-kali.8 /usr/share/man/man8
+gzip -f9 /usr/share/man/man8/apt-kali.8
+mkdir -p /usr/share/man/man5/
+cp ./man/apt-kali.conf.5 /usr/share/man/man5
+gzip -f9 /usr/share/man/man5/apt-kali.conf.5
 ```
 
 Configuration
