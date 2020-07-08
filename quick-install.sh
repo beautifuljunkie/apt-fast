@@ -7,8 +7,8 @@ apt_kali_installation() {
     sudo apt-get install -y aria2 html-xml-utils netselect wget
   fi
 
-  wget https://raw.githubusercontent.com/beautifuljunkie/apt-kali/master/apt-kali -O /usr/local/sbin/apt-kali
-  chmod +x /usr/local/sbin/apt-kali
+  wget https://raw.githubusercontent.com/beautifuljunkie/apt-kali/master/apt-kali -O /usr/bin/apt-kali
+  chmod +x /usr/bin/apt-kali
   if ! [[ -f /etc/apt-kali.conf ]]; then
     wget https://raw.githubusercontent.com/beautifuljunkie/apt-kali/master/apt-kali.conf -O /etc/apt-kali.conf
   fi

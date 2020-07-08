@@ -28,7 +28,7 @@ KALILIST=$( kalimirget )
 
 kaliapt () {
 
-echo "$KALILIST" |xargs netselect -t 1|tr ' ' '\n' |grep http 
+echo "$KALILIST" |xargs netselect -t 10|tr ' ' '\n' |grep http 
 
 }
 
@@ -646,7 +646,7 @@ if  grep -q  "$KALIAPT" -r "/etc/apt/sources.list" "/etc/apt/sources.list.d/" "$
 then
 	msg "Sources list is already using kaliest mirror. Nothing to update" "warning"  
 else
-cp "${SOURCELIST}" "${SOURCELIST}~"
+cat "${SOURCELIST}" >> "${SOURCELIST}~"
 grep -v kali "${SOURCELIST}~" > "${SOURCELIST}" 
 echo -e "deb ""$KALIAPT"" kali-rolling main non-free contrib\ndeb-src ""$KALIAPT"" kali-rolling main non-free contrib" >> "${SOURCELIST}" &&
 
