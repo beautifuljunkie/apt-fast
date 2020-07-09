@@ -64,12 +64,19 @@ for argument in "$@"; do
   case "$argument" in
     upgrade | full-upgrade | install | dist-upgrade | build-dep)
       option="install"
+      root=0
       ;;
     clean | autoclean)
       option="clean"
+      root=0
       ;;
+	update)
+	option="update"
+	root=0
+	;;
     update-source)
       option="update-source"
+      root=0
       ;;
     download)
       option="download"
