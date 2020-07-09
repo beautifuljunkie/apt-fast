@@ -1,8 +1,8 @@
 .PHONY: install uninstall reinstall
 		
 
-install: apt-kali completions/bash/apt-kali
-	sh scripts/debinstall
+install: apt-kali completions/bash/apt-kali debinstall.sh
+	sh debinstall.sh
 	cp apt-kali /usr/bin/
 	cp apt-kali.conf /etc/
 	mkdir -p /etc/bash_completion.d/
@@ -20,13 +20,13 @@ install: apt-kali completions/bash/apt-kali
 	chmod +x /usr/bin/apt-kali
 	
 
-uninstall: /usr/local/bin/apt-kali
+uninstall: /usr/bin/apt-kali
 	rm -rf /usr/bin/apt-kali /etc/apt-kali.conf \
 	/usr/share/man/man5/apt-kali.conf.5.gz /usr/share/man/man8/apt-kali.8.gz \
 	/usr/share/zsh/functions/Completion/Debian/_apt-kali /etc/bash_completion.d/apt-kali
 	@echo "REMOVED"
 
-/usr/local/bin/apt-kali:
+/usr/bin/apt-kali:
 	@echo "Not installed" 1>&2
 	@exit 1
 
